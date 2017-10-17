@@ -1,0 +1,25 @@
+<style type="text/css">
+</style>
+
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+
+<h3>Current Applicants</h3>
+
+<!-- Header -->
+<div class="applicant-item">
+  <b class="name">Name</b>
+  <b class="viewedInvitation">Form Opened?</b>
+  <b class="backgroundCheck">Background Checked?</b>
+  <b class="creditCheck">Credit Checked?</b>
+  <b class="viewReport">Action</b>
+</div>
+
+<div class="applicant-list">
+  <div w3-include-html="applicant-item.html"></div>
+  <div w3-include-html="applicant-item.html"></div>
+  <div w3-include-html="applicant-item.html"></div>
+</div>
+
+<script>
+w3.includeHTML();
+</script>

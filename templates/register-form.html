@@ -1,0 +1,36 @@
+<style type="text/css">
+  .form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    align-self: center;
+  }
+
+  .form > * {
+    margin-bottom: 0.7em;
+  }
+</style>
+
+<script src="https://unpkg.com/fastest-validator"></script>
+<script type="text/javascript">
+  var v = new FastestValidator();
+  var schema = {
+    username: {},
+    password: {}
+  }
+</script>
+
+<form class="form">
+  <h1>Register to `Company`</h1>
+  <label labelFor="username">Username</label>
+  <input type="text" name="username" />
+  <label labelFor="confirmPassword">Password</label>
+  <input type="password" name="confirmPassword" />
+  <label labelFor="password">Confirm Password</label>
+  <input type="password" name="password" />
+  <br />
+  <input type="submit" value="Register" />
+  <a href="login-form.html">Already have an account? Log in.</a>
+</form>

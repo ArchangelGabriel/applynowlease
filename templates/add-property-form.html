@@ -1,0 +1,66 @@
+<style type="text/css">
+  .form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    align-self: center;
+  }
+
+  .form > * {
+    margin-bottom: 0.7em;
+  }
+</style>
+
+<form action="property-list.html" class="form">
+  <h2>Add a new property</h2>
+  <input type="text" id="autocomplete" name="autocomplete" placeholder="Search Address" />
+  </br>
+  <input id="apt" placeholder="apt #" />
+  <input id="street_number" placeholder="street_number" disabled="true" />
+  <input id="route" placeholder="route" disabled="true" />
+  <input id="locality" placeholder="locality" disabled="true" />
+  <input id="administrative_area_level_1" placeholder="administrative_area_level_1" disabled="true" />
+  <input id="postal_code" placeholder="postal_code" disabled="true" />
+  <input id="country" placeholder="country" disabled="true" />
+  <label>Agreement file:</label>
+  <input type="file"/>
+  <input type="submit" value="Add Property" />
+</form>
+
+<script>
+  var placeSearch, autocomplete
+  var componentForm = {
+    street_number: 'short_name',
+    route: 'short_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'short_name',
+    country: 'long_name',
+    postal_code: 'short_name'
+  }
+  function initAutocomplete() {
+    var input = document.getElementById('autocomplete')
+    var config = { types: ['geocode'] }
+    autocomplete = new google.maps.places.Autocomplete(input, config)
+    autocomplete.addListener('place_changed', fillInAddress)
+  }
+  function fillInAddress() {
+    var place = autocomplete.getPlace()
+    console.log(place)
+    for (var component in componentForm) {
+      document.getElementById(component).value = '';
+      document.getElementById(component).disabled = false;
+    }
+
+    for (var i = 0; i < place.address_components.length; i++) {
+      var addressType = place.address_components[i].types[0];
+      if (componentForm[addressType]) {
+        var val = place.address_components[i][componentForm[addressType]];
+        document.getElementById(addressType).value = val;
+      }
+    }
+  }
+</script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYJf-JpyEuu-oLkU-G8s07oFg21yp-UIk&libraries=places&callback=initAutocomplete" async defer></script>
