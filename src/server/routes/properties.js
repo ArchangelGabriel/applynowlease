@@ -10,6 +10,7 @@ import {
 import Property from 'server/models/property'
 import Application from 'server/models/application'
 import * as auth from 'server/auth'
+import extractApplicationOptions from 'server/hooks/extractApplicationOptions'
 
 const router = express.Router()
 const fmbConfig = { model: Property, by: '_id', reqAttr: 'property', from: 'params' }
@@ -54,7 +55,10 @@ const addProperty = (req, res, next) => {
 const applyToProperty = (req, res, next) => {
   new Application(req.body)
     .save()
-    .then((newApplication) => res.json(newApplication))
+    .then((newApplication) => {
+      newApplication.requestSignature()
+      res.json(newApplication)
+    })
     .catch(next)
 }
 

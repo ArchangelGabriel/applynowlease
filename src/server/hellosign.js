@@ -3,4 +3,4 @@ import { HELLO_SIGN_API_KEY } from 'server/config'
 
 const hellosign = HelloSign({ key: HELLO_SIGN_API_KEY })
 
-export default HelloSign
+export default hellosign
