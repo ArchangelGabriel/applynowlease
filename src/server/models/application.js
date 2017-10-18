@@ -25,6 +25,8 @@ ApplicationSchema.methods.requestSignature = function(cb) {
         .then(application.saveRequestSignatureResult.bind(application))
         .then((savedApplication) => { cb(null, savedApplication) })
         .catch(cb)
+    } else {
+      cb(null, application)
     }
   })
 }
