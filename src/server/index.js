@@ -1,3 +1,4 @@
+import './env'
 import server from './server'
 import { connect } from './db'
 
