@@ -4,13 +4,16 @@ export default function findModelBy({
   where, 
   reqAttr,
   from = 'body',
-  multi = false
+  multi = false,
+  all = false
 }) {
   where = where || by
 
   return function (req, res, next) {
     const fn = multi ? 'find' : 'findOne'
-    model[fn]({ [where]: req[from][by] })
+    const query = all ? {} : { [where]: req[from][by] }
+
+    model[fn](query)
       .then((resource) => {
         if (resource) {
           req[reqAttr] = resource

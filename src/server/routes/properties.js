@@ -13,7 +13,8 @@ import * as auth from 'server/auth'
 import extractApplicationOptions from 'server/hooks/extractApplicationOptions'
 
 const router = express.Router()
-const fmbConfig = { model: Property, by: '_id', reqAttr: 'property', from: 'params' }
+const fmbAllConfig = { model: Property, all: true, multi: true, reqAttr: 'properties' }
+const fmbPropertyIdConfig = { model: Property, by: '_id', reqAttr: 'property', from: 'params' }
 const fmbAppConfig = { 
     model: Application, 
     where: 'property',
@@ -43,6 +44,10 @@ const _propertyBelongsToUser = (req, res, next) => {
     const errors = { message: 'Action is unauthorized.' }
     res.status(401).json({ errors })
   }
+}
+
+const getProperties = (req, res, next) => {
+  res.json(req.properties)
 }
 
 const addProperty = (req, res, next) => {
@@ -78,6 +83,11 @@ const updateProperty = (req, res, next) => {
     .then((updatedProperty) => res.json(updatedProperty))
 }
 
+router.get('/properties',
+  findModelBy(fmbAllConfig),
+  getProperties
+)
+
 router.post('/properties', 
   auth.required, 
   _attachUserIntermediateMiddleware,
@@ -86,21 +96,23 @@ router.post('/properties',
 )
 
 router.post('/properties/:_id/apply',
-  findModelBy(fmbConfig),
+  findModelBy(fmbPropertyIdConfig),
   _attachPropertyIntermediateMiddleware,
   validate(applyToPropertyValidator),
   applyToProperty
 )
 
 router.get('/properties/:_id/applications',
-  findModelBy(fmbConfig),
+  auth.required,
+  findModelBy(fmbPropertyIdConfig),
+  _propertyBelongsToUser,
   findModelBy(fmbAppConfig),
   getPropertyApplications
 )
 
 router.put('/properties/:_id',
   auth.required,
-  findModelBy(fmbConfig),
+  findModelBy(fmbPropertyIdConfig),
   _propertyBelongsToUser,
   validate(updatePropertyValidator),
   updateProperty
