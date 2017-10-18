@@ -56,8 +56,10 @@ const applyToProperty = (req, res, next) => {
   new Application(req.body)
     .save()
     .then((newApplication) => {
-      newApplication.requestSignature()
-      res.json(newApplication)
+      newApplication.requestSignature((err, savedApplication) => {
+        if (err) return next(err)
+        res.json(savedApplication)
+      })
     })
     .catch(next)
 }

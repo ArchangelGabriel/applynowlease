@@ -16,14 +16,15 @@ const ApplicationSchema = mongoose.Schema({
   timestamps: true
 })
 
-ApplicationSchema.methods.requestSignature = function() {
+ApplicationSchema.methods.requestSignature = function(cb) {
   this.populate('property', function(err, application) {
     if (err) return console.error(err)
     const opts = extractOptions(application)
     if (opts) {
       requestSignature(opts)
         .then(application.saveRequestSignatureResult.bind(application))
-        .catch(console.error)
+        .then((savedApplication) => { cb(null, savedApplication) })
+        .catch(cb)
     }
   })
 }
