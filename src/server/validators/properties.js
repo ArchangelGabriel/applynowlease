@@ -16,14 +16,27 @@ export const addProperty = v.compile({
     }
   },
   monthlyAsking: { type: 'number' },
+  templateSubject: { type: 'string', optional: true },
+  templateDescription: { type: 'string', optional: true },
   templateId: { type: 'string', optional: true }
 })
 
 export const applyToProperty = v.compile({ 
   property: 'string',
-  email: 'email',
-  fullName: 'string',
-  phoneNumber: 'string'
+  signers: { 
+    type: "array", 
+    min: 2, 
+    items: {
+      type: "object",
+      props: {
+        email: 'email',
+        fullName: 'string',
+        phoneNumber: 'string',
+        role: { type: 'string', enum: ['Agent', 'Client'] }
+      }
+    }
+  },
+  payerEmail: { type: 'string', optional: true }
 })
 
 export const updateProperty = v.compile({

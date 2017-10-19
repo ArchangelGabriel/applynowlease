@@ -2,15 +2,23 @@ import mongoose from 'mongoose'
 
 import requestSignature from 'server/hooks/requestSignature'
 
+const SignerSchema = mongoose.Schema({
+  email: String,
+  fullName: String,
+  phoneNumber: String,
+  role: String
+}, {
+  _id: false
+})
+
 const ApplicationSchema = mongoose.Schema({
   property: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Property', 
     required: true
   },
-  email: String,
-  fullName: String,
-  phoneNumber: String,
+  signers: [SignerSchema],
+  payerEmail: String,
   signatureRequestId: String
 }, {
   timestamps: true
@@ -43,14 +51,14 @@ ApplicationSchema.methods.saveRequestSignatureResult = function(signatureResult)
 
 const extractOptions = (application) => {
   const templateId = application.property.templateId
-  if (application.property.templateId) {
+  if (templateId) {
     let opts = {
       template_id: templateId,
-      signers: [{
-        email_address: application.email,
-        name: application.fullName,
-        role: 'Client'
-      }]
+      signers: application.signers.map(signer => ({
+        email_address: signer.email,
+        name: signer.fullName,
+        role: signer.role
+      }))
     }
     return opts
   }

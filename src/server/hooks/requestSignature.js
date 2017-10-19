@@ -5,9 +5,9 @@ const testMode = NODE_ENV === 'production' ? 0 : 1
 
 function signatureRequest({ 
   template_id,
-  subject,
-  message = 'Residential Lease Application',
-  signers = 'Please fill.'
+  subject = 'Residential Lease Application',
+  message = 'Please fill.',
+  signers
 }) {
 
   const opts = {

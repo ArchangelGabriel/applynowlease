@@ -16,6 +16,8 @@ const PropertySchema = mongoose.Schema({
     zip: String
   },
   monthlyAsking: Number,
+  templateSubject: String,
+  templateDescription: String,
   templateId: String
 }, {
   timestamps: true
