@@ -8,6 +8,7 @@ import hellosigncallbackRoutes from 'server/routes/hellosigncallback'
 const app = new express()
 
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
 
 app.get('/health', (req, res) => res.sendStatus(200))
 

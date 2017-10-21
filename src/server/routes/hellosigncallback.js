@@ -24,6 +24,7 @@ router.post('/hellosigncallback', upload.any(), (req, res) => {
 
   if (event_hash === hash) {
     console.log(event)
+    
     res.send("Hello API Event Received")
   } else {
     res.sendStatus(401)
