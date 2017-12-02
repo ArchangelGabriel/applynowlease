@@ -1,0 +1,1 @@
+web: npm prod:build && npm prod:start
