@@ -1,8 +1,8 @@
 import './env'
 import server from './server'
 import { connect } from './db'
+import { PORT } from './config'
 
-const PORT = 3000
 const db = connect()
 
 server.listen(PORT, () => {

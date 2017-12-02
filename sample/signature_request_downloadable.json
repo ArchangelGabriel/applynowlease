@@ -1,0 +1,71 @@
+{  
+  "event":{  
+    "event_type":"signature_request_downloadable",
+    "event_time":"1508359504",
+    "event_hash":"ac29688a276e2409c85017181afe1d7379894a781212d08a6f1a7bdb214962a9",
+    "event_metadata":{  
+      "related_signature_id":null,
+      "reported_for_account_id":"a3acbec043471a52028ce49b4c9d001350649f5a",
+      "reported_for_app_id":null
+    }
+  },
+  "account_guid":"a3acbec043471a52028ce49b4c9d001350649f5a",
+  "client_id":null,
+  "signature_request":{  
+    "signature_request_id":"b4ac3565e765afd3e916fd7c020a12fe05e7ddf5",
+    "test_mode":true,
+    "title":"residential_lease_application",
+    "original_title":"residential_lease_application",
+    "subject":null,
+    "message":"Residential Lease Application",
+    "metadata":{  
+
+    },
+    "is_complete":true,
+    "is_declined":false,
+    "has_error":false,
+    "custom_fields":[  
+      {  
+        "name":"property_address",
+        "type":"text",
+        "required":true,
+        "api_id":"7b2bd9_9",
+        "editor":null,
+        "value":null
+      }
+    ],
+    "response_data":[  
+      {  
+        "name":"property_address",
+        "type":"text",
+        "required":true,
+        "api_id":"7b2bd9_9",
+        "value":"Block",
+        "signature_id":"c40a0bb12a8b1cea8dcb9d3fa62e3cdd"
+      }
+    ],
+    "signing_url":"https:\/\/app.hellosign.com\/sign\/b4ac3565e765afd3e916fd7c020a12fe05e7ddf5",
+    "signing_redirect_url":null,
+    "final_copy_uri":"\/v3\/signature_request\/final_copy\/b4ac3565e765afd3e916fd7c020a12fe05e7ddf5",
+    "files_url":"https:\/\/api.hellosign.com\/v3\/signature_request\/files\/b4ac3565e765afd3e916fd7c020a12fe05e7ddf5",
+    "details_url":"https:\/\/app.hellosign.com\/home\/manage?guid=b4ac3565e765afd3e916fd7c020a12fe05e7ddf5",
+    "requester_email_address":"aaccusername@gmail.com",
+    "signatures":[  
+      {  
+        "signature_id":"c40a0bb12a8b1cea8dcb9d3fa62e3cdd",
+        "has_pin":false,
+        "signer_email_address":"juangab31@gmail.com",
+        "signer_name":"Juan Gabriel",
+        "order":null,
+        "status_code":"signed",
+        "signed_at":1508359504,
+        "last_viewed_at":1508359492,
+        "last_reminded_at":null,
+        "error":null
+      }
+    ],
+    "cc_email_addresses":[  
+
+    ]
+  }
+}
