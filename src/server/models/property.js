@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import Application from 'server/models/application'
+import { DEFAULT_TEMPLATE_ID } from '../config'
 
 const PropertySchema = mongoose.Schema({
   user: { 
@@ -18,7 +19,10 @@ const PropertySchema = mongoose.Schema({
   monthlyAsking: Number,
   templateSubject: String,
   templateDescription: String,
-  templateId: String
+  templateId: {
+    type: String,
+    default: DEFAULT_TEMPLATE_ID
+  }
 }, {
   timestamps: true
 })
