@@ -1,7 +1,5 @@
 import hellosign from 'server/hellosign'
-import { NODE_ENV } from 'server/config'
-
-const testMode = NODE_ENV === 'production' ? 0 : 1
+import { NODE_ENV, HELLO_SIGN_TEST_MODE } from 'server/config'
 
 function signatureRequest({ 
   template_id,
@@ -11,7 +9,7 @@ function signatureRequest({
 }) {
 
   const opts = {
-    test_mode: testMode,
+    test_mode: JSON.parse(HELLO_SIGN_TEST_MODE),
     template_id,
     subject,
     message,
