@@ -19,7 +19,7 @@ const ApplicationSchema = mongoose.Schema({
   },
   signers: [SignerSchema],
   payerEmail: String,
-  readyForPayment: { type: Boolean, default: false },
+  signatureRequestAllSigned: { type: Boolean, default: false },
   signatureRequestId: { type: String, index: true }
 }, {
   timestamps: true
