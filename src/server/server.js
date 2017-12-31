@@ -1,5 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 import authenticationRoutes from 'server/routes/authentication'
 import propertiesRoutes from 'server/routes/properties'
 import applicationsRoutes from 'server/routes/applications'
@@ -7,6 +8,7 @@ import hellosigncallbackRoutes from 'server/routes/hellosigncallback'
 
 const app = new express()
 
+app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
