@@ -19,6 +19,7 @@ import {
 
 const router = express.Router()
 const fmbAllConfig = { model: Property, all: true, multi: true, reqAttr: 'properties' }
+const fmbUserConfig = { model: Property, multi: true, where: 'user', by: 'user', reqAttr: 'properties', from: 'body' }
 const fmbPropertyIdConfig = { model: Property, by: '_id', reqAttr: 'property', from: 'params' }
 
 const getProperties = (req, res, next) => {
@@ -40,7 +41,9 @@ const updateProperty = (req, res, next) => {
 }
 
 router.get('/properties',
-  findModelBy(fmbAllConfig),
+  auth.required, 
+  _attachUserIntermediateMiddleware,
+  findModelBy(fmbUserConfig),
   getProperties
 )
 
