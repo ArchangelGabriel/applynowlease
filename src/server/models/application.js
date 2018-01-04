@@ -17,10 +17,13 @@ const ApplicationSchema = mongoose.Schema({
     ref: 'Property', 
     required: true
   },
+  applicantName: String,
+  email: String,
+  status: { type: String, enum: ['sent', 'opened', 'viewed', 'pending', 'completed'] },
   signers: [SignerSchema],
   payerEmail: String,
   signatureRequestAllSigned: { type: Boolean, default: false },
-  signatureRequestId: { type: String, index: true }
+  signatureRequestId: { type: String, index: true },
 }, {
   timestamps: true
 })
