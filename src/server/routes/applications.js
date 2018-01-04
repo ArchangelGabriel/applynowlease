@@ -73,10 +73,7 @@ const chargePropertyApplication = (req, res, next) => {
 }
 
 const getPropertyApplications = (req, res, next) => {
-  res.json(Object.assign({},
-    req.property.toObject(),
-    { applications: req.applications }
-  ))
+  res.json(req.applications)
 }
 
 router.post('/properties/:_id/apply',
