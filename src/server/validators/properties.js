@@ -9,18 +9,6 @@ export const addProperty = v.compile({
   state: { type: 'string' },
   country: { type: 'string' },
   zip: { type: 'string' },
-  address: {
-    type: 'object',
-    props: {
-      streetNumber: 'string',
-      street: 'string',
-      city: 'string',
-      state: 'string',
-      country: 'string',
-      zip: 'string'
-    },
-    optional: true,
-  },
   monthlyAsking: { type: 'number' },
   templateSubject: { type: 'string', optional: true },
   templateDescription: { type: 'string', optional: true },
@@ -38,18 +26,6 @@ export const updateProperty = v.compile({
   state: { type: 'string', optional: true },
   country: { type: 'string', optional: true },
   zip: { type: 'string', optional: true },
-  address: {
-    type: 'object',
-    props: {
-      streetNumber: 'string',
-      street: 'string',
-      city: 'string',
-      state: 'string',
-      country: 'string',
-      zip: 'string',
-    },
-    optional: true,
-  },
   monthlyAsking: { type: 'number', optional: true },
 })
 

@@ -13,14 +13,6 @@ const PropertySchema = mongoose.Schema({
   state: String,
   country: String,
   zip: String,
-  address: {
-    streetNumber: String,
-    street: String,
-    city: String,
-    state: String,
-    country: String,
-    zip: String
-  },
   monthlyAsking: Number,
   templateSubject: String,
   templateDescription: String,
