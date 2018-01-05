@@ -16,6 +16,7 @@ import {
 
 import { 
   applyToProperty as applyToPropertyValidator,
+  updateProperty as updatePropertyValidator,
 } from 'server/validators/properties'
 
 const stripe = require('stripe')(STRIPE_PRIVATE_KEY)
@@ -34,23 +35,20 @@ const fmbAppConfig = {
 const applyToProperty = (req, res, next) => {
   new Application(req.body)
     .save()
-    .then((newApplication) => {
-      newApplication.requestSignature((err, savedApplication) => {
-        if (err) return next(err)
-        res.json(savedApplication)
-      })
-    })
+    .then(res.json.bind(res))
     .catch(next)
 }
 
-const updatePropertyApplication = (req, res, next) => {
-  // console.log(req.application)
+const updatePropertyApplication = (req, res, next) => {  
   console.log(req.files)
-  res.sendStatus(200)
-  // req.property.templateId = req.body.templateId
-  // req.property
-  //   .save()
-  //   .then((updatedProperty) => res.json(updatedProperty))
+  for (const attr in req.body) {
+    req.application[attr] = req.body[attr]
+  }
+  
+  req.application
+  .save()
+  .then(res.json.bind(res))
+  .catch(next)
 }
 
 const chargePropertyApplication = (req, res, next) => {
@@ -86,6 +84,7 @@ router.post('/properties/:_id/apply',
 router.put('/properties/:property_id/applications/:_id',
   upload.array('supportingDocuments'),
   findModelBy(fmbAppIdConfig),
+  validate(updatePropertyValidator),
   updatePropertyApplication
 )
 

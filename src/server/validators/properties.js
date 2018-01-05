@@ -23,22 +23,26 @@ export const addProperty = v.compile({
 
 export const applyToProperty = v.compile({ 
   property: 'string',
-  signers: { 
-    type: "array", 
-    min: 2, 
-    items: {
-      type: "object",
-      props: {
-        email: 'email',
-        fullName: 'string',
-        phoneNumber: 'string',
-        role: { type: 'string', enum: ['Agent', 'Client'] }
-      }
-    }
-  },
-  payerEmail: { type: 'string', optional: true }
+  applicantName: 'string',
+  status: { type: 'string', enum: ['sent', 'opened', 'viewed', 'pending', 'completed'] }
+  // signers: { 
+  //   type: "array", 
+  //   min: 2, 
+  //   items: {
+  //     type: "object",
+  //     props: {
+  //       email: 'email',
+  //       fullName: 'string',
+  //       phoneNumber: 'string',
+  //       role: { type: 'string', enum: ['Agent', 'Client'] }
+  //     }
+  //   }
+  // },
+  // payerEmail: { type: 'string', optional: true }
 })
 
 export const updateProperty = v.compile({
-  templateId: { type: 'string' }
+  applicantName: { type: 'string', optional: true },
+  status: { type: 'string', enum: ['sent', 'opened', 'viewed', 'pending', 'completed'], optional: true },
+  // templateId: { type: 'string' },
 })
