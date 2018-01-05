@@ -4,11 +4,11 @@ const v = new Validator()
 
 export const addProperty = v.compile({ 
   user: 'string',
-  addressOne: { type: 'string', optional: true },
-  city: { type: 'string', optional: true },
-  state: { type: 'string', optional: true },
-  country: { type: 'string', optional: true },
-  zip: { type: 'string', optional: true },
+  addressOne: { type: 'string' },
+  city: { type: 'string' },
+  state: { type: 'string' },
+  country: { type: 'string' },
+  zip: { type: 'string' },
   address: {
     type: 'object',
     props: {
@@ -18,7 +18,8 @@ export const addProperty = v.compile({
       state: 'string',
       country: 'string',
       zip: 'string'
-    }
+    },
+    optional: true,
   },
   monthlyAsking: { type: 'number' },
   templateSubject: { type: 'string', optional: true },
