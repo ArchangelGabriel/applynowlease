@@ -19,6 +19,9 @@ const ApplicationSchema = mongoose.Schema({
   },
   applicantName: String,
   email: String,
+  employmentStatus: { type: String, enum: ['fulltime', 'parttime', 'selfemployed', 'unemployed'] },
+  photoId: String,
+  payStubs: [String],
   status: { type: String, enum: ['sent', 'opened', 'viewed', 'pending', 'completed'], default: 'sent' },
 }, {
   timestamps: true
