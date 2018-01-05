@@ -13,6 +13,7 @@ const PropertySchema = mongoose.Schema({
   state: String,
   country: String,
   zip: String,
+  completed: { type: Boolean, default: false },
   monthlyAsking: Number,
   templateSubject: String,
   templateDescription: String,

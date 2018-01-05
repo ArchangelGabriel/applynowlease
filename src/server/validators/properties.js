@@ -26,6 +26,7 @@ export const updateProperty = v.compile({
   state: { type: 'string', optional: true },
   country: { type: 'string', optional: true },
   zip: { type: 'string', optional: true },
+  completed: { type: 'boolean', optional: true },
   monthlyAsking: { type: 'number', optional: true },
 })
 
