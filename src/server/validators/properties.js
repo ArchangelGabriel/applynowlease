@@ -46,3 +46,9 @@ export const updateProperty = v.compile({
   status: { type: 'string', enum: ['sent', 'opened', 'viewed', 'pending', 'completed'], optional: true },
   // templateId: { type: 'string' },
 })
+
+export const updateApplication = v.compile({
+  applicantName: { type: 'string', optional: true },
+  status: { type: 'string', enum: ['sent', 'opened', 'viewed', 'pending', 'completed'], optional: true },
+  // templateId: { type: 'string' },
+})

@@ -16,7 +16,7 @@ import {
 
 import { 
   applyToProperty as applyToPropertyValidator,
-  updateProperty as updatePropertyValidator,
+  updateApplication as updateApplicationValidator,
 } from 'server/validators/properties'
 
 const stripe = require('stripe')(STRIPE_PRIVATE_KEY)
@@ -84,7 +84,7 @@ router.post('/properties/:_id/apply',
 router.put('/properties/:property_id/applications/:_id',
   upload.array('supportingDocuments'),
   findModelBy(fmbAppIdConfig),
-  validate(updatePropertyValidator),
+  validate(updateApplicationValidator),
   updatePropertyApplication
 )
 
