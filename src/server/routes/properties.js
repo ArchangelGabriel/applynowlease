@@ -34,10 +34,14 @@ const addProperty = (req, res, next) => {
 }
 
 const updateProperty = (req, res, next) => {
-  req.property.templateId = req.body.templateId
+  for (const attr in req.body) {
+    req.property[attr] = req.body[attr]
+  }
+  
   req.property
-    .save()
-    .then((updatedProperty) => res.json(updatedProperty))
+  .save()
+  .then(res.json.bind(res))
+  .catch(next)
 }
 
 router.get('/properties',

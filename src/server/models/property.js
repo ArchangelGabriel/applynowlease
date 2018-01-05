@@ -8,6 +8,11 @@ const PropertySchema = mongoose.Schema({
     ref: 'User', 
     required: true 
   },
+  addressOne: String,
+  city: String,
+  state: String,
+  country: String,
+  zip: String,
   address: {
     streetNumber: String,
     street: String,
