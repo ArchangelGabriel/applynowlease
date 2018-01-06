@@ -17,7 +17,12 @@ const UserSchema = mongoose.Schema({
   admin: {
     type: Boolean,
     default: false
-  }
+  },
+  firstName: String,
+  lastName: String,
+  city: String,
+  state: String,
+  zip: String,
 }, {
   timestamps: true
 })
@@ -45,14 +50,24 @@ UserSchema.methods.toAuthJSON = function() {
   return {
     _id: this._id,
     email: this.email,
-    token: this.generateJWT()
+    firstName: this.firstName,
+    lastName: this.lastName,
+    city: this.city,
+    state: this.state,
+    zip: this.zip,
+    token: this.generateJWT(),
   }
 }
 
 UserSchema.methods.toJSON = function() {
   return {
     _id: this._id,
-    email: this.email
+    email: this.email,
+    firstName: this.firstName,
+    lastName: this.lastName,
+    city: this.city,
+    state: this.state,
+    zip: this.zip,
   }
 }
 
