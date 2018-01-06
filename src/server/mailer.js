@@ -18,4 +18,16 @@ export const forgotOpts = ({
   `
 })
 
+export const applyToPropertyOpts = ({
+  application,
+  applicationLink,
+}) => ({
+  to: application.email,
+  from: 'applynowleaseprimary@gmail.com',
+  subject: 'ApplyNowLease Apply To Property',
+  text: `
+    ${applicationLink}
+  `
+})
+
 export default sgMail

@@ -6,9 +6,8 @@ import validate from 'server/middlewares/validate'
 import findModelBy from 'server/middlewares/findModelBy'
 import User from 'server/models/user'
 import Mailer, { forgotOpts } from 'server/mailer'
-import { NODE_ENV } from 'server/config'
+import { APP_URL } from 'server/config'
 
-const prod = NODE_ENV !== 'development'
 const router = express.Router()
 const fmbEmailConfig = { model: User, by: 'email', reqAttr: 'user' }
 const fmbResetPasswordTokenConfig = { model: User, by: 'resetPasswordToken', reqAttr: 'user', from: 'params' }
@@ -35,7 +34,7 @@ export const login = (req, res, next) => {
 export const forgot = (req, res, next) => {
   crypto.randomBytes(20, (err, buff) => {
     const token = buff.toString('hex')
-    const resetLink = `${req.protocol}://${req.headers.host + (prod ? '' : ':3000')}/reset/${token}`
+    const resetLink = (APP_URL || `${req.protocol}://${req.headers.host}`) + `/reset/${token}`
 
     req.user.resetPasswordToken = token
     req.user.resetPasswordExpires = Date.now() + 3600000

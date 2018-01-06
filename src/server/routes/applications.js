@@ -8,6 +8,8 @@ import validate from 'server/middlewares/validate'
 import findModelBy from 'server/middlewares/findModelBy'
 import Property from 'server/models/property'
 import Application from 'server/models/application'
+import Mailer, { applyToPropertyOpts } from 'server/mailer'
+import { APP_URL } from 'server/config'
 
 import {
   _attachPropertyIntermediateMiddleware,
@@ -37,7 +39,12 @@ const fmbAppConfig = {
 const applyToProperty = (req, res, next) => {
   new Application(req.body)
     .save()
-    .then(res.json.bind(res))
+    .then((application) => {
+      const applicationLink = (APP_URL || `${req.protocol}://${req.headers.host}`) + `/application1?property_id=${application.property}&application_id=${application._id}`
+      
+      Mailer.send(applyToPropertyOpts({ application, applicationLink }))
+      return res.json(application)
+    })
     .catch(next)
 }
 

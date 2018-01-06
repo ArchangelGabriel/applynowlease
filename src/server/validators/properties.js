@@ -18,6 +18,7 @@ export const addProperty = v.compile({
 export const applyToProperty = v.compile({ 
   property: 'string',
   applicantName: 'string',
+  email: 'email',
 })
 
 export const updateProperty = v.compile({

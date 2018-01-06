@@ -1,7 +1,6 @@
 const R = require('ramda')
 
 export const _allowStatusUpdateIfAdmin = (req, res, next) => {
-  console.log(req.body, req.user)
   if (req.body.status && !req.user.admin) {
     res.sendStatus(401)
   }
