@@ -1,5 +1,13 @@
 const R = require('ramda')
 
+export const _allowStatusUpdateIfAdmin = (req, res, next) => {
+  console.log(req.body, req.user)
+  if (req.body.status && !req.user.admin) {
+    res.sendStatus(401)
+  }
+  next()
+}
+
 export const _attachFilesToApplication = (req, res, next) => {
   Object.assign(req.body, R.map(R.map(R.prop('location')))(req.files))
   next()

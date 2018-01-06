@@ -13,6 +13,10 @@ const UserSchema = mongoose.Schema({
   },
   password: {
     type: String
+  },
+  admin: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
@@ -30,6 +34,7 @@ UserSchema.methods.generateJWT = function() {
     {
       _id: this._id,
       email: this.email,
+      admin: this.admin,
       exp: parseInt(exp.getTime() / 1000, 10),
     },
     SECRET,
