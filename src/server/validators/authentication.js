@@ -11,3 +11,7 @@ export const register = v.compile({
   state: 'string',
   zip: 'string'
 })
+
+export const reset = v.compile({
+  password: { type: 'string', min: 6 },
+})

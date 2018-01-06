@@ -16,6 +16,7 @@ export default function findModelBy({
     model[fn](query)
       .then((resource) => {
         if (resource) {
+          console.log(resource, query)
           req[reqAttr] = resource
           next()
         } else {
