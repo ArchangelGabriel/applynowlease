@@ -1,3 +1,10 @@
+const R = require('ramda')
+
+export const _attachFilesToApplication = (req, res, next) => {
+  Object.assign(req.body, R.map(R.map(R.prop('location')))(req.files))
+  next()
+}
+
 export const _attachUserIntermediateMiddleware = (req, res, next) => {
   req.body.user = req.user._id
   next()

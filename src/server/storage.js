@@ -17,9 +17,6 @@ export const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'applynowleases3',
-    acl: 'authenticated-read',
-    contentDisposition: 'attachment',
-    serverSideEncryption: 'AES256',
     key: function (req, file, cb) {
       const fileName = path.join(
         'applications',

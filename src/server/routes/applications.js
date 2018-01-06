@@ -11,7 +11,8 @@ import Application from 'server/models/application'
 
 import {
   _attachPropertyIntermediateMiddleware,
-  _propertyBelongsToUser
+  _propertyBelongsToUser,
+  _attachFilesToApplication,
 } from 'server/middlewares/intermediates'
 
 import { 
@@ -40,7 +41,6 @@ const applyToProperty = (req, res, next) => {
 }
 
 const updatePropertyApplication = (req, res, next) => {  
-  console.log(req.files)
   for (const attr in req.body) {
     req.application[attr] = req.body[attr]
   }
@@ -82,8 +82,9 @@ router.post('/properties/:_id/apply',
 )
 
 router.put('/properties/:property_id/applications/:_id',
-  upload.array('supportingDocuments'),
+  upload.fields([{ name: 'photoId', maxCount: 1 }, { name: 'payStubs', maxCount: 6 }]),
   findModelBy(fmbAppIdConfig),
+  _attachFilesToApplication,
   validate(updateApplicationValidator),
   updatePropertyApplication
 )
