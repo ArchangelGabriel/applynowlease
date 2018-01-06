@@ -9,3 +9,4 @@ export const HELLO_SIGN_TEST_MODE = process.env.HELLO_SIGN_TEST_MODE
 export const STRIPE_PUBLIC_KEY = process.env.STRIPE_PUBLIC_KEY
 export const STRIPE_PRIVATE_KEY = process.env.STRIPE_PRIVATE_KEY
 export const DEFAULT_TEMPLATE_ID = process.env.DEFAULT_TEMPLATE_ID
+export const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY
