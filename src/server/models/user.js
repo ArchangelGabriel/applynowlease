@@ -23,6 +23,8 @@ const UserSchema = mongoose.Schema({
   city: String,
   state: String,
   zip: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 }, {
   timestamps: true
 })
