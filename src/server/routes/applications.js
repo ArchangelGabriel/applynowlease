@@ -36,6 +36,14 @@ const fmbAppConfig = {
   reqAttr: 'applications' 
 }
 
+const getApplications = (req, res, next) => {
+  // Think about security
+  Application
+    .find({})
+    .populate('property')
+    .then(res.json.bind(res))
+}
+
 const applyToProperty = (req, res, next) => {
   new Application(req.body)
     .save()
@@ -76,6 +84,8 @@ const chargePropertyApplication = (req, res, next) => {
 const getPropertyApplications = (req, res, next) => {
   res.json(req.applications)
 }
+
+router.get('/applications', getApplications)
 
 router.post('/properties/:_id/apply',
   findModelBy(fmbPropertyIdConfig),
