@@ -60,18 +60,13 @@ const updatePropertyApplication = (req, res, next) => {
 }
 
 const chargePropertyApplication = (req, res, next) => {
-  console.log(req)
-  // find the application
-  // extract out the number of going to be tenants
-  // if age is an adult, calculate the amount needed to be paid
-  
-  const amount = 500
+  const amount = 50
 
   stripe.charges.create({
     source: req.body.stripeToken,
     currency: 'usd',
     description: 'A sample charge.',
-    amount: amount + 1
+    amount: amount
   })
   .then((charge) => {
     res.json(charge)

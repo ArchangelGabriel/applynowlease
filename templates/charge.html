@@ -1,14 +1,15 @@
 
 <form 
-  action="http://localhost:3000/properties/59e66c7521339ca57cd7a058/applications/59e82335d0e1f4e1d5c7fbaf/charge" 
+  action="https://polar-caverns-23447.herokuapp.com/properties/5a248a85a812170030bd2b4d/applications/5a515dbb6ebb94003039c2e8/charge" 
   method="POST"
 >
   <script 
-    src="//checkout.stripe.com/v2/checkout.js",
-    class="stripe-button",
     data-key="pk_test_ls3o9oWVeUG4bmKpdXOTakWM",
+    src="http://checkout.stripe.com/v2/checkout.js",
+    class="stripe-button",
     data-locale="auto",
-    data-description="Sample Charge",
-    data-amount="50000">
+    data-zip-code="true"
+    data-description="Credit Check Payment",
+    data-amount="5000">
   </script>
 </form>
