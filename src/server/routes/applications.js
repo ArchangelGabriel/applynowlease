@@ -39,7 +39,7 @@ const fmbAppConfig = {
 
 const getNonCompleteApplications = (req, res, next) => {
   Application
-    .find({})
+    .find({ user: req.user._id })
     .populate('property')
     .then(res.json.bind(res))
 }
@@ -92,6 +92,8 @@ const chargePropertyApplication = (req, res, next) => {
 const getPropertyApplications = (req, res, next) => {
   res.json(req.applications)
 }
+
+router.get('/applications/my', auth.required, getNonCompleteApplications)
 
 router.get('/applications', getApplications)
 
