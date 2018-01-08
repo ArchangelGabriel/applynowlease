@@ -13,6 +13,7 @@ import { APP_URL } from 'server/config'
 
 import {
   _attachPropertyIntermediateMiddleware,
+  _attachUserIntermediateMiddleware,
   _propertyBelongsToUser,
   _attachFilesToApplication,
   _allowStatusUpdateIfAdmin,
@@ -34,6 +35,13 @@ const fmbAppConfig = {
   multi: true, 
   from: 'params', 
   reqAttr: 'applications' 
+}
+
+const getNonCompleteApplications = (req, res, next) => {
+  Application
+    .find({})
+    .populate('property')
+    .then(res.json.bind(res))
 }
 
 const getApplications = (req, res, next) => {
@@ -88,8 +96,10 @@ const getPropertyApplications = (req, res, next) => {
 router.get('/applications', getApplications)
 
 router.post('/properties/:_id/apply',
+  auth.required,
   findModelBy(fmbPropertyIdConfig),
   _attachPropertyIntermediateMiddleware,
+  _attachUserIntermediateMiddleware,
   validate(applyToPropertyValidator),
   applyToProperty
 )

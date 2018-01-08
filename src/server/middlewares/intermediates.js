@@ -22,13 +22,13 @@ export const _attachFilesToApplication = (req, res, next) => {
   next()
 }
 
-export const _attachUserIntermediateMiddleware = (req, res, next) => {
-  req.body.user = req.user._id
+export const _attachPropertyIntermediateMiddleware = (req, res, next) => {
+  req.body.property = req.property._id.toString()
   next()
 }
 
-export const _attachPropertyIntermediateMiddleware = (req, res, next) => {
-  req.body.property = req.property._id.toString()
+export const _attachUserIntermediateMiddleware = (req, res, next) => {
+  req.body.user = req.user._id
   next()
 }
 
