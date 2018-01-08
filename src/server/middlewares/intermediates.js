@@ -9,6 +9,17 @@ export const _allowStatusUpdateIfAdmin = (req, res, next) => {
   next()
 }
 
+export const _allowReportUpdateIfAdmin = (req, res, next) => {
+  if (req.files.finalReport) {
+    if (req.user && req.user.admin) {
+      return next()
+    } else {
+      return res.sendStatus(401)
+    }
+  }
+  next()
+}
+
 export const _attachFilesToApplication = (req, res, next) => {
   let toBeAttached = {}
   for (const fileName in req.files) {

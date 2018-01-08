@@ -17,6 +17,7 @@ import {
   _propertyBelongsToUser,
   _attachFilesToApplication,
   _allowStatusUpdateIfAdmin,
+  _allowReportUpdateIfAdmin,
 } from 'server/middlewares/intermediates'
 
 import { 
@@ -110,6 +111,7 @@ router.put('/properties/:property_id/applications/:_id',
   auth.optional,
   upload.fields([{ name: 'photoId', maxCount: 1 }, { name: 'payStubs', maxCount: 6 }, { name: 'finalReport', maxCount: 1 }]),
   _allowStatusUpdateIfAdmin,
+  _allowReportUpdateIfAdmin,
   findModelBy(fmbAppIdConfig),
   _attachFilesToApplication,
   validate(updateApplicationValidator),
