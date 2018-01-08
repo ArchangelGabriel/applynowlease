@@ -10,7 +10,7 @@ export const _allowStatusUpdateIfAdmin = (req, res, next) => {
 }
 
 export const _allowReportUpdateIfAdmin = (req, res, next) => {
-  if (req.files.finalReport) {
+  if (req.files && req.files.finalReport) {
     if (req.user && req.user.admin) {
       return next()
     } else {
