@@ -1,8 +1,7 @@
 export const _allowStatusUpdateIfAdmin = (req, res, next) => {
   if (req.body.status) {
-    console.log("USER CHECH", req.user)
     if (req.user && req.user.admin) {
-      next()
+      return next()
     } else {
       return res.sendStatus(401)
     }
