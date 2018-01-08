@@ -1,5 +1,3 @@
-const R = require('ramda')
-
 export const _allowStatusUpdateIfAdmin = (req, res, next) => {
   if (req.body.status) {
     console.log("USER CHECH", req.user)
@@ -13,7 +11,15 @@ export const _allowStatusUpdateIfAdmin = (req, res, next) => {
 }
 
 export const _attachFilesToApplication = (req, res, next) => {
-  Object.assign(req.body, R.map(R.map(R.prop('location')))(req.files))
+  let toBeAttached = {}
+  for (const fileName in req.files) {
+    const files = req.files[fileName]
+    toBeAttached[fileName] = []
+    for (const file of files) {
+      toBeAttached[fileName].push(file.location)
+    }
+  }
+  Object.assign(req.body, toBeAttached)
   next()
 }
 
