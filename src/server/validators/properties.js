@@ -32,8 +32,8 @@ export const updateProperty = v.compile({
 })
 
 export const updateApplication = v.compile({
-  employmentStatus: 'string',
-  photoId: { type: 'array', items: 'string' },
-  payStubs: { type: 'array', items: 'string' },
+  employmentStatus: { type: 'string', optional: true },
+  photoId: { type: 'array', items: 'string', optional: true },
+  payStubs: { type: 'array', items: 'string', optional: true },
   status: { type: 'string', enum: ['sent', 'opened', 'viewed', 'pending', 'completed'], optional: true },
 })
