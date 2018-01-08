@@ -27,6 +27,7 @@ const ApplicationSchema = mongoose.Schema({
   employmentStatus: { type: String, enum: ['fulltime', 'parttime', 'selfemployed', 'unemployed'] },
   photoId: [String],
   payStubs: [String],
+  finalReport: [String],
   status: { type: String, enum: ['sent', 'opened', 'viewed', 'pending', 'completed'], default: 'sent' },
 }, {
   timestamps: true

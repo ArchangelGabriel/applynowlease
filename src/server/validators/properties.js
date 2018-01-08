@@ -35,5 +35,6 @@ export const updateApplication = v.compile({
   employmentStatus: { type: 'string', optional: true },
   photoId: { type: 'array', items: 'string', optional: true },
   payStubs: { type: 'array', items: 'string', optional: true },
+  finalReport: { type: 'array', items: 'string', optional: true },
   status: { type: 'string', enum: ['sent', 'opened', 'viewed', 'pending', 'completed'], optional: true },
 })

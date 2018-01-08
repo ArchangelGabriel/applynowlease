@@ -108,7 +108,7 @@ router.post('/properties/:_id/apply',
 
 router.put('/properties/:property_id/applications/:_id',
   auth.optional,
-  upload.fields([{ name: 'photoId', maxCount: 1 }, { name: 'payStubs', maxCount: 6 }]),
+  upload.fields([{ name: 'photoId', maxCount: 1 }, { name: 'payStubs', maxCount: 6 }, { name: 'finalReport', maxCount: 1 }]),
   _allowStatusUpdateIfAdmin,
   findModelBy(fmbAppIdConfig),
   _attachFilesToApplication,
