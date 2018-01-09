@@ -38,6 +38,10 @@ const fmbAppConfig = {
   reqAttr: 'applications' 
 }
 
+const getApplication = (req, res, next) => {
+  res.json(req.application)
+}
+
 const getNonCompleteApplications = (req, res, next) => {
   Application
     .find({ user: req.user._id })
@@ -95,6 +99,11 @@ const getPropertyApplications = (req, res, next) => {
 }
 
 router.get('/applications/my', auth.required, getNonCompleteApplications)
+
+router.get('/applications/:_id',
+  findModelBy(fmbAppIdConfig),
+  getApplication
+)
 
 router.get('/applications', getApplications)
 
