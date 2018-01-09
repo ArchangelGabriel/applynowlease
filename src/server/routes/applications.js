@@ -18,6 +18,7 @@ import {
   _attachFilesToApplication,
   _allowStatusUpdateIfAdmin,
   _allowReportUpdateIfAdmin,
+  _preventDoubleCharge,
 } from 'server/middlewares/intermediates'
 
 import { 
@@ -81,17 +82,27 @@ const updatePropertyApplication = (req, res, next) => {
 }
 
 const chargePropertyApplication = (req, res, next) => {
-  const amount = 50
+  const amount = 5000
 
   stripe.charges.create({
-    source: req.body.stripeToken,
+    source: req.body.id,
     currency: 'usd',
-    description: 'A sample charge.',
-    amount: amount
+    metadata: req.application.toStripeJSON(),
+    amount: amount,
   })
   .then((charge) => {
-    res.json(charge)
+    if (charge.status === 'succeeded') {
+      req.application.charge = charge
+      req.application
+        .save()
+        .then(res.json.bind(res))
+        .catch(next)
+    } else {
+      console.error(charge)
+      res.status(400).json({ errors: { message: 'Something wrong with payment. Try again later.' } })
+    }
   })
+  .catch(next)
 }
 
 const getPropertyApplications = (req, res, next) => {
@@ -127,8 +138,9 @@ router.put('/properties/:property_id/applications/:_id',
   updatePropertyApplication
 )
 
-router.post('/properties/:property_id/applications/:_id/charge',
+router.post('/applications/:_id/charge',
   findModelBy(fmbAppIdConfig),
+  _preventDoubleCharge,
   chargePropertyApplication
 )
 

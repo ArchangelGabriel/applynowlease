@@ -54,3 +54,11 @@ export const _propertyBelongsToUser = (req, res, next) => {
     res.status(401).json({ errors })
   }
 }
+
+export const _preventDoubleCharge = (req, res, next) => {
+  if (req.application.charge && req.application.charge.toObject().status === 'succeeded') {
+    const errors = { message: 'Application has already been paid. No charge was made.' }
+    return res.status(400).json({ errors })
+  }
+  next()
+}

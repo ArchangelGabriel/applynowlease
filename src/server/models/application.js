@@ -2,6 +2,8 @@ import mongoose from 'mongoose'
 
 import requestSignature from 'server/hooks/requestSignature'
 
+const ChargeSchema = mongoose.Schema({}, { strict: false, _id: false })
+
 const SignerSchema = mongoose.Schema({
   email: String,
   fullName: String,
@@ -29,6 +31,7 @@ const ApplicationSchema = mongoose.Schema({
   payStubs: [String],
   finalReport: [String],
   status: { type: String, enum: ['sent', 'opened', 'viewed', 'pending', 'completed'], default: 'sent' },
+  charge: ChargeSchema,
 }, {
   timestamps: true
 })
@@ -55,6 +58,15 @@ ApplicationSchema.methods.saveRequestSignatureResult = function(signatureResult)
     return this.save()
   } else {
     console.error(signatureResult)
+  }
+}
+
+ApplicationSchema.methods.toStripeJSON = function() {
+  return {
+    _id: this.id.toString(),
+    user: this.user.toString(),
+    property: this.property.toString(),
+    applicantName: this.applicantName,
   }
 }
 
