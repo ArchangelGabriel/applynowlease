@@ -57,7 +57,7 @@ export const reset = (req, res, next) => {
 
     return req.user
       .save()
-      .then(() => res.redirect((APP_URL || `${req.protocol}://${req.headers.host}`) + `/login`))
+      .then(() => res.json({}))
       .catch(next)
   }
 
