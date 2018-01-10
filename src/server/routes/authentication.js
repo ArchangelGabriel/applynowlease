@@ -43,7 +43,7 @@ export const forgot = (req, res, next) => {
       .save()
       .then((user) => {
         Mailer.send(forgotOpts({ user, resetLink }))
-        res.sendStatus(200)
+        res.json({})
       })
       .catch(next)
   })
@@ -57,7 +57,7 @@ export const reset = (req, res, next) => {
 
     return req.user
       .save()
-      .then(() => res.redirect(req.body.redirectTo || '/'))
+      .then(() => res.redirect((APP_URL || `${req.protocol}://${req.headers.host}`) + `/login`))
       .catch(next)
   }
 
