@@ -112,7 +112,7 @@ const getPropertyApplications = (req, res, next) => {
 router.get('/applications/my', auth.required, getNonCompleteApplications)
 
 router.get('/applications/:_id',
-  findModelBy(fmbAppIdConfig),
+  findModelBy(Object.assign(fmbAppIdConfig, { populate: ['property'] })),
   getApplication
 )
 

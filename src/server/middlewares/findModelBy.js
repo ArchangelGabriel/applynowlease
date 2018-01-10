@@ -5,7 +5,8 @@ export default function findModelBy({
   reqAttr,
   from = 'body',
   multi = false,
-  all = false
+  all = false,
+  populate = [],
 }) {
   where = where || by
 
@@ -13,7 +14,13 @@ export default function findModelBy({
     const fn = multi ? 'find' : 'findOne'
     const query = all ? {} : { [where]: req[from][by] }
 
-    model[fn](query)
+    let queryPromise = model[fn](query)
+
+    if (populate.length > 0) {
+      populate.forEach((attr) => queryPromise = queryPromise.populate(attr))
+    }
+
+    queryPromise
       .then((resource) => {
         if (resource) {
           req[reqAttr] = resource
