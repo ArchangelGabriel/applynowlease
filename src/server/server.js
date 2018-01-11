@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
@@ -21,6 +22,10 @@ app.use(
   applicationsRoutes,
   hellosigncallbackRoutes
 )
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client', 'index.html'))
+})
 
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {

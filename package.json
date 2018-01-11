@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon -e js --exec babel-node src/server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod:build": "rimraf dist && babel src -d dist",
+    "prod:build": "rimraf dist && babel src -d dist && cp -a src/client dist",
     "prod:start": "node dist/server"
   },
   "keywords": [],
