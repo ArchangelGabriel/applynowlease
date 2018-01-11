@@ -11,6 +11,7 @@ const app = new express()
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.static('src/client'))
 
 app.get('/health', (req, res) => res.sendStatus(200))
 
