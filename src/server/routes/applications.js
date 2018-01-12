@@ -46,6 +46,7 @@ const getApplication = (req, res, next) => {
 const getNonCompleteApplications = (req, res, next) => {
   Application
     .find({ user: req.user._id })
+    .sort({ createdAt: -1 })
     .populate('property')
     .then(res.json.bind(res))
 }
