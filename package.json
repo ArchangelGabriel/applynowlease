@@ -27,6 +27,7 @@
     "express-jwt": "^5.3.0",
     "fastest-validator": "^0.6.5",
     "hellosign-sdk": "^1.1.13",
+    "heroku-ssl-redirect": "0.0.4",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.12.2",
     "mongoose-unique-validator": "^1.0.6",

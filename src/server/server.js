@@ -1,4 +1,5 @@
 import path from 'path'
+import sslRedirect from 'heroku-ssl-redirect'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
@@ -9,6 +10,7 @@ import hellosigncallbackRoutes from 'server/routes/hellosigncallback'
 
 const app = new express()
 
+app.use(sslRedirect())
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
