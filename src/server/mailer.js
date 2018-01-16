@@ -24,10 +24,10 @@ export const applyToPropertyOpts = ({
   applicationLink,
 }) => ({
   to: application.email,
-  from: 'donotreploy@applynowleasing.com',
+  from: 'donotreply@applynowleasing.com',
   subject: `[Action Required] Fill Up Credit/Background Check Documents`,
   text: `
-    ${(sender.firstName && sender.lastname && `${sender.firstName} ${sender.lastName}`) || sender.email} has requested you fill up this form:\n\n
+    ${(sender.firstName && sender.lastname && `${sender.firstName} ${sender.lastName}`) || sender.email} has requested you fill up this form:
     ${applicationLink}
   `
 })
