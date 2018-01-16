@@ -8,8 +8,8 @@ export const forgotOpts = ({
   resetLink,
 }) => ({
   to: user.email,
-  from: 'applynowleaseprimary@gmail.com',
-  subject: 'ApplyNowLease Reset Password',
+  from: 'donotreploy@applynowleasing.com',
+  subject: '[Action Required] Reset Password',
   text: `
     You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
     Please click on the following link, or paste this into your browser to complete the process:\n
@@ -19,13 +19,15 @@ export const forgotOpts = ({
 })
 
 export const applyToPropertyOpts = ({
+  sender,
   application,
   applicationLink,
 }) => ({
   to: application.email,
-  from: 'applynowleaseprimary@gmail.com',
-  subject: 'ApplyNowLease Apply To Property',
+  from: 'donotreploy@applynowleasing.com',
+  subject: `[Action Required] Fill Up Credit/Background Check Documents`,
   text: `
+    ${(sender.firstName && sender.lastname && `${sender.firstName} ${sender.lastName}`) || sender.email} has requested you fill up this form:\n\n
     ${applicationLink}
   `
 })

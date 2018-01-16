@@ -65,7 +65,7 @@ const applyToProperty = (req, res, next) => {
     .then((application) => {
       const applicationLink = (APP_URL || `${req.protocol}://${req.headers.host}`) + `/application1?property_id=${application.property}&application_id=${application._id}`
       
-      Mailer.send(applyToPropertyOpts({ application, applicationLink }))
+      Mailer.send(applyToPropertyOpts({ sender: req.user, application, applicationLink }))
       return res.json(application)
     })
     .catch(next)

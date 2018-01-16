@@ -41,6 +41,8 @@ UserSchema.methods.generateJWT = function() {
     {
       _id: this._id,
       email: this.email,
+      firstName: this.firstName,
+      lastName: this.lastName,
       admin: this.admin,
       exp: parseInt(exp.getTime() / 1000, 10),
     },
