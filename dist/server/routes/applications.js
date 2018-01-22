@@ -118,7 +118,7 @@ router.get('/applications', getApplications);
 
 router.post('/properties/:_id/apply', auth.required, (0, _findModelBy2.default)(fmbPropertyIdConfig), _intermediates._attachPropertyIntermediateMiddleware, _intermediates._attachUserIntermediateMiddleware, (0, _validate2.default)(_properties.applyToProperty), applyToProperty);
 
-router.put('/properties/:property_id/applications/:_id', auth.optional, _storage.upload.fields([{ name: 'photoId', maxCount: 1 }, { name: 'payStubs', maxCount: 6 }, { name: 'finalReport', maxCount: 1 }]), _intermediates._allowStatusUpdateIfAdmin, _intermediates._allowReportUpdateIfAdmin, (0, _findModelBy2.default)(fmbAppIdConfig), _intermediates._attachFilesToApplication, (0, _validate2.default)(_properties.updateApplication), updatePropertyApplication);
+router.put('/properties/:property_id/applications/:_id', auth.optional, _storage.upload.fields([{ name: 'photoId', maxCount: 1 }, { name: 'payStubs', maxCount: 6 }, { name: 'finalReport', maxCount: 1 }]), _intermediates._disallowChargeUpdate, _intermediates._allowStatusUpdateIfAdmin, _intermediates._allowReportUpdateIfAdmin, (0, _findModelBy2.default)(fmbAppIdConfig), _intermediates._attachFilesToApplication, (0, _validate2.default)(_properties.updateApplication), updatePropertyApplication);
 
 router.post('/applications/:_id/charge', (0, _findModelBy2.default)(fmbAppIdConfig), _intermediates._preventDoubleCharge, chargePropertyApplication);
 

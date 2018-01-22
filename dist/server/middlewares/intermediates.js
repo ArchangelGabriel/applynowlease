@@ -3,6 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var _disallowChargeUpdate = exports._disallowChargeUpdate = function _disallowChargeUpdate(req, res, next) {
+  if (req.body.hasOwnProperty('charge')) {
+    return res.sendStatus(401);
+  }
+  next();
+};
+
 var _allowStatusUpdateIfAdmin = exports._allowStatusUpdateIfAdmin = function _allowStatusUpdateIfAdmin(req, res, next) {
   if (req.body.status) {
     if (req.user && req.user.admin) {

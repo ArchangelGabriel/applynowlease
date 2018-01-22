@@ -1,3 +1,10 @@
+export const _disallowChargeUpdate = (req, res, next) => {
+  if (req.body.hasOwnProperty('charge')) {
+    return res.sendStatus(401)
+  }
+  next()
+}
+
 export const _allowStatusUpdateIfAdmin = (req, res, next) => {
   if (req.body.status) {
     if (req.user && req.user.admin) {
