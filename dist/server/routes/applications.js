@@ -88,7 +88,7 @@ var updatePropertyApplication = function updatePropertyApplication(req, res, nex
 };
 
 var chargePropertyApplication = function chargePropertyApplication(req, res, next) {
-  var amount = 5000;
+  var amount = 4900;
 
   stripe.charges.create({
     source: req.body.id,

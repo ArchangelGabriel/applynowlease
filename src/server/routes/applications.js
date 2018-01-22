@@ -83,7 +83,7 @@ const updatePropertyApplication = (req, res, next) => {
 }
 
 const chargePropertyApplication = (req, res, next) => {
-  const amount = 5000
+  const amount = 4900
 
   stripe.charges.create({
     source: req.body.id,
