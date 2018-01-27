@@ -19,15 +19,18 @@ function findModelBy(_ref) {
       _ref$all = _ref.all,
       all = _ref$all === undefined ? false : _ref$all,
       _ref$populate = _ref.populate,
-      populate = _ref$populate === undefined ? [] : _ref$populate;
+      populate = _ref$populate === undefined ? [] : _ref$populate,
+      update = _ref.update;
 
   where = where || by;
 
   return function (req, res, next) {
     var fn = multi ? 'find' : 'findOne';
+    fn = update ? 'findOneAndUpdate' : fn;
+
     var query = all ? {} : _defineProperty({}, where, req[from][by]);
 
-    var queryPromise = model[fn](query);
+    var queryPromise = model[fn](query, update);
 
     if (populate.length > 0) {
       populate.forEach(function (attr) {

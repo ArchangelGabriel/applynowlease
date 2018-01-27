@@ -8,6 +8,10 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _randToken = require('rand-token');
+
+var _randToken2 = _interopRequireDefault(_randToken);
+
 var _requestSignature = require('../hooks/requestSignature');
 
 var _requestSignature2 = _interopRequireDefault(_requestSignature);
@@ -42,11 +46,19 @@ var ApplicationSchema = _mongoose2.default.Schema({
   photoId: [String],
   payStubs: [String],
   finalReport: [String],
-  status: { type: String, enum: ['sent', 'opened', 'viewed', 'pending', 'completed'], default: 'sent' },
-  charge: ChargeSchema
+  status: { type: String, enum: ['sent', 'resent', 'declined', 'opened', 'viewed', 'pending', 'completed'], default: 'sent' },
+  charge: ChargeSchema,
+  declineUrl: { type: String, default: function _default() {
+      return _randToken2.default.generate(16);
+    }, index: true },
+  resendCount: { type: Number, default: 0 }
 }, {
   timestamps: true
 });
+
+ApplicationSchema.statics.generateDeclineUrl = function () {
+  return _randToken2.default.generate(16);
+};
 
 ApplicationSchema.methods.requestSignature = function (cb) {
   this.populate('property', function (err, application) {

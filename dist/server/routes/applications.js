@@ -48,6 +48,7 @@ var stripe = require('stripe')(_config.STRIPE_PRIVATE_KEY);
 var router = _express2.default.Router();
 var fmbPropertyIdConfig = { model: _property2.default, by: '_id', reqAttr: 'property', from: 'params' };
 var fmbAppIdConfig = { model: _application2.default, by: '_id', reqAttr: 'application', from: 'params' };
+var fmbAppDeclineUrlConfig = { model: _application2.default, by: 'declineUrl', reqAttr: 'application', from: 'query' };
 var fmbAppConfig = {
   model: _application2.default,
   where: 'property',
@@ -73,10 +74,48 @@ var getApplications = function getApplications(req, res, next) {
 var applyToProperty = function applyToProperty(req, res, next) {
   new _application2.default(req.body).save().then(function (application) {
     var applicationLink = (_config.APP_URL || req.protocol + '://' + req.headers.host) + ('/application1?property_id=' + application.property + '&application_id=' + application._id);
+    var declineLink = req.protocol + '://' + req.headers.host + '/applications/decline';
 
-    _mailer2.default.send((0, _mailer.applyToPropertyOpts)({ sender: req.user, application: application, applicationLink: applicationLink }));
+    _mailer2.default.send((0, _mailer.applyToPropertyOpts)({
+      sender: req.user,
+      property: req.property,
+      application: application,
+      applicationLink: applicationLink,
+      declineLink: declineLink
+    }));
     return res.json(application);
   }).catch(next);
+};
+
+var declineApplication = function declineApplication(req, res, next) {
+  req.application.declineUrl = null;
+  req.application.status = 'declined';
+  return req.application.save().then(function () {
+    return res.send("Your request has been successful. We will notify the agent about the change.");
+  }).catch(next);
+};
+
+var resendApplication = function resendApplication(req, res, next) {
+  var remind = req.query.remind;
+
+  var application = req.application;
+  var applicationLink = (_config.APP_URL || req.protocol + '://' + req.headers.host) + ('/application1?property_id=' + application.property._id + '&application_id=' + application._id);
+  var declineLink = req.protocol + '://' + req.headers.host + '/applications/decline';
+
+  application.declineUrl = _application2.default.generateDeclineUrl();
+  application.status = remind ? 'resent' : 'sent';
+
+  application.save().then(function (application) {
+    _mailer2.default.send((0, _mailer.applyToPropertyOpts)({
+      sender: req.user,
+      property: application.property,
+      application: application,
+      applicationLink: applicationLink,
+      declineLink: declineLink,
+      remind: remind
+    }));
+    res.json(application);
+  });
 };
 
 var updatePropertyApplication = function updatePropertyApplication(req, res, next) {
@@ -112,7 +151,14 @@ var getPropertyApplications = function getPropertyApplications(req, res, next) {
 
 router.get('/applications/my', auth.required, getNonCompleteApplications);
 
-router.get('/applications/:_id', (0, _findModelBy2.default)(Object.assign(fmbAppIdConfig, { populate: ['property'] })), getApplication);
+router.get('/applications/decline', (0, _findModelBy2.default)(fmbAppDeclineUrlConfig), declineApplication);
+
+router.get('/applications/:_id/resend', auth.required, (0, _findModelBy2.default)(Object.assign({}, fmbAppIdConfig, {
+  populate: ['property'],
+  update: { $inc: { resendCount: 1 } }
+})), resendApplication);
+
+router.get('/applications/:_id', (0, _findModelBy2.default)(Object.assign({}, fmbAppIdConfig, { populate: ['property'] })), getApplication);
 
 router.get('/applications', getApplications);
 
