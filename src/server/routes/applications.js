@@ -31,6 +31,7 @@ const stripe = require('stripe')(STRIPE_PRIVATE_KEY)
 const router = express.Router()
 const fmbPropertyIdConfig = { model: Property, by: '_id', reqAttr: 'property', from: 'params' }
 const fmbAppIdConfig = { model: Application, by: '_id', reqAttr: 'application', from: 'params' }
+const fmbAppDeclineUrlConfig = { model: Application, by: 'declineUrl', reqAttr: 'application', from: 'query' }
 const fmbAppConfig = { 
   model: Application, 
   where: 'property',
@@ -65,11 +66,51 @@ const applyToProperty = (req, res, next) => {
     .save()
     .then((application) => {
       const applicationLink = (APP_URL || `${req.protocol}://${req.headers.host}`) + `/application1?property_id=${application.property}&application_id=${application._id}`
-      
-      Mailer.send(applyToPropertyOpts({ sender: req.user, application, applicationLink }))
+      const declineLink = `${req.protocol}://${req.headers.host}/applications/decline`
+
+      Mailer.send(applyToPropertyOpts({
+        sender: req.user,
+        property: req.property,
+        application,
+        applicationLink,
+        declineLink,
+      }))
       return res.json(application)
     })
     .catch(next)
+}
+
+const declineApplication = (req, res, next) => {
+  req.application.declineUrl = null
+  req.application.status = 'declined'
+  return req.application.save()
+    .then(() => res.send("Your request has been successful. We will notify the agent about the change."))
+    .catch(next)
+}
+
+const resendApplication = (req, res, next) => {
+  const remind = req.query.remind
+
+  const application = req.application
+  const applicationLink = (APP_URL || `${req.protocol}://${req.headers.host}`) + `/application1?property_id=${application.property._id}&application_id=${application._id}`
+  const declineLink = `${req.protocol}://${req.headers.host}/applications/decline`
+
+  application.declineUrl = Application.generateDeclineUrl()
+  application.status = remind ? 'resent' : 'sent'
+
+  application
+    .save()
+    .then((application) => {
+      Mailer.send(applyToPropertyOpts({
+        sender: req.user,
+        property: application.property,
+        application,
+        applicationLink,
+        declineLink,
+        remind,
+      }))
+      res.json(application)
+    })
 }
 
 const updatePropertyApplication = (req, res, next) => {  
@@ -113,8 +154,22 @@ const getPropertyApplications = (req, res, next) => {
 
 router.get('/applications/my', auth.required, getNonCompleteApplications)
 
+router.get('/applications/decline',
+  findModelBy(fmbAppDeclineUrlConfig),
+  declineApplication
+)
+
+router.get('/applications/:_id/resend',
+  auth.required,
+  findModelBy(Object.assign({}, fmbAppIdConfig, { 
+    populate: ['property'], 
+    update: { $inc: { resendCount: 1 } },
+  })),
+  resendApplication
+)
+
 router.get('/applications/:_id',
-  findModelBy(Object.assign(fmbAppIdConfig, { populate: ['property'] })),
+  findModelBy(Object.assign({}, fmbAppIdConfig, { populate: ['property'] })),
   getApplication
 )
 

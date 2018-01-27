@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import randtoken from 'rand-token'
 
 import requestSignature from 'server/hooks/requestSignature'
 
@@ -30,11 +31,17 @@ const ApplicationSchema = mongoose.Schema({
   photoId: [String],
   payStubs: [String],
   finalReport: [String],
-  status: { type: String, enum: ['sent', 'opened', 'viewed', 'pending', 'completed'], default: 'sent' },
+  status: { type: String, enum: ['sent', 'resent', 'declined', 'opened', 'viewed', 'pending', 'completed'], default: 'sent' },
   charge: ChargeSchema,
+  declineUrl: { type: String, default: () => randtoken.generate(16), index: true },
+  resendCount: { type: Number, default: 0 }
 }, {
   timestamps: true
 })
+
+ApplicationSchema.statics.generateDeclineUrl = function() {
+  return randtoken.generate(16)
+}
 
 ApplicationSchema.methods.requestSignature = function(cb) {
   this.populate('property', function(err, application) {

@@ -7,14 +7,17 @@ export default function findModelBy({
   multi = false,
   all = false,
   populate = [],
+  update,
 }) {
   where = where || by
 
   return function (req, res, next) {
-    const fn = multi ? 'find' : 'findOne'
+    var fn = multi ? 'find' : 'findOne'
+    fn = update ? 'findOneAndUpdate' : fn
+
     const query = all ? {} : { [where]: req[from][by] }
 
-    let queryPromise = model[fn](query)
+    let queryPromise = model[fn](query, update)
 
     if (populate.length > 0) {
       populate.forEach((attr) => queryPromise = queryPromise.populate(attr))

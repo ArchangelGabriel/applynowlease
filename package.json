@@ -34,7 +34,9 @@
     "multer": "^1.3.0",
     "multer-s3": "^2.7.0",
     "nodemon": "^1.12.1",
-    "stripe": "^5.1.1"
+    "rand-token": "^0.4.0",
+    "stripe": "^5.1.1",
+    "time-ago": "^0.2.1"
   },
   "devDependencies": {
     "jest": "^21.2.1"

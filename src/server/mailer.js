@@ -1,3 +1,4 @@
+import ta from 'time-ago'
 import { SENDGRID_API_KEY } from './config'
 import sgMail from '@sendgrid/mail'
 
@@ -18,7 +19,7 @@ export const forgotOpts = ({
   `
 })
 
-export const applyToPropertyOpts = ({
+export const applyToPropertyOpts2 = ({
   sender,
   application,
   applicationLink,
@@ -27,9 +28,37 @@ export const applyToPropertyOpts = ({
   from: 'donotreply@applynowleasing.com',
   subject: `[Action Required] Fill Up Credit/Background Check Documents`,
   text: `
-    ${(sender.firstName && sender.lastname && `${sender.firstName} ${sender.lastName}`) || sender.email} has requested you fill up this form:
+    ${(sender.firstName && sender.lastName && `${sender.firstName} ${sender.lastName}`) || sender.email} has requested you fill up this form:
     ${applicationLink}
   `
+})
+
+export const applyToPropertyOpts = ({
+  remind,
+  sender,
+  property,
+  application,
+  applicationLink,
+  declineLink,
+}) => ({
+  substitutionWrappers: ['<%', '%>'],
+  from: {
+    email: 'applications@applynowleasing.com',
+    name: 'ApplyNowLeasing'
+  },
+  to: application.email,
+  subject: `Lease Application Form ${remind ? 'Reminder' : 'Request'}`,
+  templateId: '8213f595-e82a-428a-a220-3498142e528d',
+  substitutions: {
+    recipient: application.applicantName,
+    sender: (sender.firstName && sender.lastName && `${sender.firstName} ${sender.lastName}`) || sender.email,
+    address: property.addressOne,
+    price: property.monthlyAsking,
+    application_url: applicationLink,
+    decline_url: `${declineLink}?declineUrl=${application.declineUrl}`,
+    remind: remind ? 'Just a reminder, ' : '',
+    remind_ago: remind ? ` created ${ta.ago(application.createdAt)}` : '',
+  }
 })
 
 export default sgMail
