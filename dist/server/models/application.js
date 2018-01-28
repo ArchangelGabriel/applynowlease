@@ -46,7 +46,7 @@ var ApplicationSchema = _mongoose2.default.Schema({
   photoId: [String],
   payStubs: [String],
   finalReport: [String],
-  status: { type: String, enum: ['sent', 'resent', 'declined', 'opened', 'viewed', 'pending', 'completed'], default: 'sent' },
+  status: { type: String, enum: ['sent', 'resent', 'declined', 'opened', 'dropped', 'viewed', 'pending', 'completed'], default: 'sent' },
   charge: ChargeSchema,
   declineUrl: { type: String, default: function _default() {
       return _randToken2.default.generate(16);

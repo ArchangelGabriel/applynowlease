@@ -162,7 +162,10 @@ router.get('/applications/:_id/resend', auth.required, (0, _findModelBy2.default
   update: { $inc: { resendCount: 1 } }
 })), _allowResendIfOwnerOrAdmin2.default, resendApplication);
 
-router.get('/applications/:_id', (0, _findModelBy2.default)(Object.assign({}, fmbAppIdConfig, { populate: ['property'] })), getApplication);
+router.get('/applications/:_id', (0, _findModelBy2.default)(Object.assign({}, fmbAppIdConfig, {
+  populate: ['property'],
+  update: { $set: { status: 'viewed' } }
+})), getApplication);
 
 router.get('/applications', getApplications);
 
