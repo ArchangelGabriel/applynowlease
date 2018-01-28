@@ -45,7 +45,7 @@ function findModelBy(_ref) {
       } else {
         var errors = {
           message: '' + model.modelName + (multi ? 's' : '') + ' not found.' };
-        res.status(401).json({ errors: errors });
+        res.status(404).json({ errors: errors });
       }
     }).catch(next);
   };

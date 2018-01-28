@@ -31,7 +31,7 @@ export default function findModelBy({
         } else {
           const errors = { 
             message: `${model.modelName}${multi ? 's' : ''} not found.` }
-          res.status(401).json({ errors })
+          res.status(404).json({ errors })
         }
       }).catch(next)
   }

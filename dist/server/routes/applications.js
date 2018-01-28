@@ -40,6 +40,10 @@ var _intermediates = require('../middlewares/intermediates');
 
 var _properties = require('../validators/properties');
 
+var _allowResendIfOwnerOrAdmin = require('../validators/allowResendIfOwnerOrAdmin');
+
+var _allowResendIfOwnerOrAdmin2 = _interopRequireDefault(_allowResendIfOwnerOrAdmin);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -107,7 +111,7 @@ var resendApplication = function resendApplication(req, res, next) {
 
   application.save().then(function (application) {
     _mailer2.default.send((0, _mailer.applyToPropertyOpts)({
-      sender: req.user,
+      sender: application.user,
       property: application.property,
       application: application,
       applicationLink: applicationLink,
@@ -154,9 +158,9 @@ router.get('/applications/my', auth.required, getNonCompleteApplications);
 router.get('/applications/decline', (0, _findModelBy2.default)(fmbAppDeclineUrlConfig), declineApplication);
 
 router.get('/applications/:_id/resend', auth.required, (0, _findModelBy2.default)(Object.assign({}, fmbAppIdConfig, {
-  populate: ['property'],
+  populate: ['property', 'user'],
   update: { $inc: { resendCount: 1 } }
-})), resendApplication);
+})), _allowResendIfOwnerOrAdmin2.default, resendApplication);
 
 router.get('/applications/:_id', (0, _findModelBy2.default)(Object.assign({}, fmbAppIdConfig, { populate: ['property'] })), getApplication);
 
