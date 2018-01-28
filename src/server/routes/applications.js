@@ -171,7 +171,10 @@ router.get('/applications/:_id/resend',
 )
 
 router.get('/applications/:_id',
-  findModelBy(Object.assign({}, fmbAppIdConfig, { populate: ['property'] })),
+  findModelBy(Object.assign({}, fmbAppIdConfig, {
+    populate: ['property'],
+    update: { $set: { status: 'viewed' } },
+  })),
   getApplication
 )
 

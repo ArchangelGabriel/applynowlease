@@ -31,7 +31,7 @@ const ApplicationSchema = mongoose.Schema({
   photoId: [String],
   payStubs: [String],
   finalReport: [String],
-  status: { type: String, enum: ['sent', 'resent', 'declined', 'opened', 'viewed', 'pending', 'completed'], default: 'sent' },
+  status: { type: String, enum: ['sent', 'resent', 'declined', 'opened', 'dropped', 'viewed', 'pending', 'completed'], default: 'sent' },
   charge: ChargeSchema,
   declineUrl: { type: String, default: () => randtoken.generate(16), index: true },
   resendCount: { type: Number, default: 0 }
