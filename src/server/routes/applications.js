@@ -26,6 +26,7 @@ import {
   applyToProperty as applyToPropertyValidator,
   updateApplication as updateApplicationValidator,
 } from 'server/validators/properties'
+import allowResendIfOwnerOrAdmin from 'server/validators/allowResendIfOwnerOrAdmin'
 
 const stripe = require('stripe')(STRIPE_PRIVATE_KEY)
 const router = express.Router()
@@ -102,7 +103,7 @@ const resendApplication = (req, res, next) => {
     .save()
     .then((application) => {
       Mailer.send(applyToPropertyOpts({
-        sender: req.user,
+        sender: application.user,
         property: application.property,
         application,
         applicationLink,
@@ -162,9 +163,10 @@ router.get('/applications/decline',
 router.get('/applications/:_id/resend',
   auth.required,
   findModelBy(Object.assign({}, fmbAppIdConfig, { 
-    populate: ['property'], 
+    populate: ['property', 'user'], 
     update: { $inc: { resendCount: 1 } },
   })),
+  allowResendIfOwnerOrAdmin,
   resendApplication
 )
 
