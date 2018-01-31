@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var _disallowChargeUpdate = exports._disallowChargeUpdate = function _disallowChargeUpdate(req, res, next) {
-  if (req.body.hasOwnProperty('charge')) {
+  if ('charge' in req.body) {
     return res.sendStatus(401);
   }
   next();
