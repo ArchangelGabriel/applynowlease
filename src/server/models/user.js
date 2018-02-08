@@ -1,38 +1,31 @@
-import bcrypt from 'bcrypt'
-import mongoose from 'mongoose'
-import uniqueValidator from 'mongoose-unique-validator'
+import keystone from 'keystone'
 import jwt from 'jsonwebtoken'
-
+import bcrypt from 'bcrypt'
 import { SECRET } from '../config'
 
-const UserSchema = mongoose.Schema({
-  email: { 
-    type: String, 
-    index: true,
-    unique: true
-  },
-  password: {
-    type: String
-  },
-  admin: {
-    type: Boolean,
-    default: false
-  },
-  firstName: String,
-  lastName: String,
-  city: String,
-  state: String,
-  zip: String,
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
-}, {
-  timestamps: true
+const Types = keystone.Field.Types
+
+const User = new keystone.List('User', {
+  track: {
+    createdAt: true,
+    updatedAt: true,
+  }
 })
 
-UserSchema.plugin(uniqueValidator, {message: '{VALUE} is already taken.'})
+User.add({
+  email: { type: String, required: true, initial: true, index: true, unique: true },
+  password: { type: Types.Password, required: true, initial: true },
+  admin: { type: Boolean, default: false, index: true },
+  firstName: { type: String },
+  lastName: { type: String },
+  city: { type: String },
+  state: { type: String },
+  zip: { type: String },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: Date,
+})
 
-
-UserSchema.methods.generateJWT = function() {
+User.schema.methods.generateJWT = function() {
   const today = new Date()
   const exp = new Date(today)
   exp.setDate(today.getDate() + 60)
@@ -50,7 +43,7 @@ UserSchema.methods.generateJWT = function() {
   )
 }
 
-UserSchema.methods.toAuthJSON = function() {
+User.schema.methods.toAuthJSON = function() {
   return {
     _id: this._id,
     email: this.email,
@@ -63,7 +56,7 @@ UserSchema.methods.toAuthJSON = function() {
   }
 }
 
-UserSchema.methods.toJSON = function() {
+User.schema.methods.toJSON = function() {
   return {
     _id: this._id,
     email: this.email,
@@ -75,11 +68,11 @@ UserSchema.methods.toJSON = function() {
   }
 }
 
-UserSchema.methods.verifyPassword = function(password) {
+User.schema.methods.verifyPassword = function(password) {
   return bcrypt
     .compare(password, this.password)
 }
 
-const User = mongoose.model('User', UserSchema)
+User.register()
 
-export default User
+export default User.model

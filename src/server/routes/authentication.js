@@ -1,3 +1,4 @@
+import keystone from 'keystone'
 import crypto from 'crypto'
 import express from 'express'
 import { register as registerValidator, reset as resetValidator } from 'server/validators/authentication'
